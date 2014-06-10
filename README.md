@@ -2,9 +2,9 @@ DSCAlarmSmartThings
 ===================
 DSC Alarm interface to SmartThings. Able to arm/disarm, monitor zone status and trigger the panic alarm.
 
-Author: Vassilis Varveropoulos
+Author: Vassilis Varveropoulos, Brice Dobry
 
-Date: 1/4/14
+Date: 6/10/2014
 
 Required hardware
 ------------------
