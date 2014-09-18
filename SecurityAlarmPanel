@@ -30,10 +30,6 @@ metadata {
         attribute "2ndFloorMotion", "string"
         attribute "basementMotion", "string"
         attribute "basementBedMotion", "string"
-        attribute "basementWindows", "string"
-        attribute "basementRearWindow", "string"
-        attribute "basementBedWindow", "string"
-        attribute "windowBreak", "string"
         attribute "switchAway", "string"
         attribute "switchStay", "string"
         attribute "panic", "string"
@@ -76,6 +72,8 @@ metadata {
                         state "on", label: "Stay", action: "disarm", icon: "st.Home.home4", backgroundColor: "#f1d801"
                         state "off", label: "Stay", action: "armStay",icon: "st.Home.home4", backgroundColor: "#ffffff"
                 }
+                // For the moment, each sensor has its own states due to a smartthings UI framework issue on android.
+                // To be fixed later: states should be 'open', 'closed', 'active', 'inactive'
                 standardTile("frontDoor", "device.frontDoor",width: 1, height: 1, canChangeIcon: false, canChangeBackground: true) {
                         state "FD open", label:'front\nDoor', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
                         state "FD closed", label:'front\nDoor', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
@@ -124,7 +122,7 @@ metadata {
                         state "default", action:"refresh", icon:"st.secondary.refresh"
                 }
                 main(["alarmStatus"])
-                details(["alarmStatus","away","stay","garageSideDoor","patioDoor","garageDoor","frontMotion","2ndFloorMotion","basementMotion","basementBedMotion","basementBedWindow", "chime","systemStatus","refresh","panic"])
+                details(["alarmStatus","away","stay","frontDoor","garageSideDoor","patioDoor","garageDoor","frontMotion","2ndFloorMotion","basementMotion","basementBedMotion","basementBedWindow", "chime","systemStatus","refresh","panic"])
         }
 }
 
