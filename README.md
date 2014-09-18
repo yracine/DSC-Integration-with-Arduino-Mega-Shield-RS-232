@@ -34,7 +34,7 @@ All four of those lines had to be re-routed to the dedicated serial ports of the
 
 The order of the shield stacking is the following (from bottom to top), Arduino Mega, SmartThings shield and RS232 shield. Make sure that the SmartThings shield serial port selection switch is set to pins 1,2. By default the RS232 shield will also use pins 1 &2.
 
-Before programming the Arduino board you will need to modify the SmartthingsDCS.ino file with your pin code (3 places, see comments), otherwise arming and disarming will not work.
+Before programming the Arduino board you will need to modify the SmartthingsDCSAlarm.ino file with your pin code (3 places, see comments), otherwise arming and disarming will not work.
 
 A few pictures of the hardware can be found in the repository.
 
