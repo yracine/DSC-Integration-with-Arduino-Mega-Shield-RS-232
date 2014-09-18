@@ -1,7 +1,6 @@
 #include <Event.h>
 #include <Timer.h>
 #include <SmartThingsMega.h>
-
 //#define DEBUG_ENABLE 1
   
 #define PIN_THING_LED  13
@@ -10,7 +9,7 @@
 #define MAX_ZONES 64
 
 #define UPDATE_PERIOD_ARM 25283
-#define UPDATE_PERIOD_ALARM 30123
+#define UPDATE_PERIOD_ALARM 25283 //30123
 #define UPDATE_PERIOD_ZONE 50234
  
 SmartThingsCallout_t messageCallout;    // call out function forward decalaration
@@ -31,7 +30,7 @@ void setup()
   digitalWrite(PIN_THING_LED, LOW);   // set value to LOW (off) to match stateLED=0
   smartthing.shieldSetLED(0, 0, 0);
   // setup IT-100 serial port
-  Serial1.begin(9600);
+  Serial1.begin(19200);
   
   // setup debug port
 #ifdef DEBUG_ENABLE
@@ -45,7 +44,7 @@ void setup()
   alarm = false;
 
   // Now increase the baud rate
-//  alarmSetBaudRate();
+  alarmSetBaudRate(19200);
   
   alarmStatusRequest();
 }
@@ -69,14 +68,14 @@ void loop()
     if (data == '\r' && bufferIdx > 0)
     {
 #ifdef DEBUG_ENABLE
-      Serial.println("processing cmd");
+      Serial.println("\nprocessing cmd\n");
 #endif
       // create String object
       buffer[bufferIdx] = '\0';
       bufferIdx = 0;
       String str(buffer);
       // process IT-100 message
-      if (str.length() > 4)
+      if (str.length() >= 3)
       {
         String cmd = str.substring(0,3);
         // zone open
@@ -179,15 +178,168 @@ void loop()
               sendChimeStatus(true);
             else
               sendChimeStatus(false);
-          }
+           }
+        }    
+        else if (cmd.equals("658"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Keypad Lockout");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("670"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Invalid Access Code");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("672"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Failed to arm");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("802"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Panel AC Trouble");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("803"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Panel AC Trouble Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("806"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("System Bell Trouble");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("807"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("System Bell Trouble Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("810"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("TLM Line 1 Trouble");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("811"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("TLM Line 1 Trouble Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("812"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("TLM Line 2 Trouble");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("813"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("TLM Line 2 Trouble Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("821"))
+        {
+          String msg = "SY:" + str.substring(0, 6);
+#ifdef DEBUG_ENABLE
+          Serial.println("System Low Battery at " + str.substring(3,6));
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("822"))
+        {
+          String msg = "SY:" + str.substring(0, 6);
+#ifdef DEBUG_ENABLE
+          Serial.println("System Low Battery Rest at " + str.substring(3,6));
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("829"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("System Tamper");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("830"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("System Tamper Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("840"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Trouble Status (LCD)");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("841"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Trouble Status (LCD) Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("896"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Keybus Fault");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("897"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Keybus Fault Rest");
+#endif
+          smartthing.send(msg);
         }
 #ifdef DEBUG_ENABLE
-        else {
+       else {
            Serial.println("unsupported message"); 
            Serial.println(str);
         }
 #endif
       }
+      
     }
     // otherwise append to buffer (ignore \n)
     else if (data != '\n')
@@ -293,7 +445,7 @@ void sendZoneStatus()
 void alarmArm()
 {
   // setup and send arm command
-  String cmd = String("0331****00"); //<-------- IMPORTANT: replace * with pin code 
+  String cmd = String("0331190500"); //<-------- IMPORTANT: replace * with pin code 
   cmd = appendChecksum(cmd);
   Serial1.print(cmd);
 #ifdef DEBUG_ENABLE
@@ -327,7 +479,7 @@ void alarmArmStay()
 void alarmDisarm()
 {
   // setup and send disarm command
-  String cmd = String("0401****00"); //<------- IMPORTANT: replace * with pin code
+  String cmd = String("0401190500"); //<------- IMPORTANT: replace * with pin code
   cmd = appendChecksum(cmd);
   Serial1.print(cmd);
 #ifdef DEBUG_ENABLE
@@ -369,7 +521,7 @@ void alarmPanic()
 
 void alarmSendCode()
 {
-  String code = String("2001****00"); //<------- IMPORTANT: replace * with pin code
+  String code = String("2001190500"); //<------- IMPORTANT: replace * with pin code
   code = appendChecksum(code);
   Serial1.print(code);
 #ifdef DEBUG_ENABLE
@@ -379,7 +531,6 @@ void alarmSendCode()
 
 void alarmStatusRequest()
 {
-  // setup and send panic command
   String cmd = String("001");
   cmd = appendChecksum(cmd);
   Serial1.print(cmd);
@@ -388,11 +539,40 @@ void alarmStatusRequest()
 #endif
 }
 
-void alarmSetBaudRate()
+void alarmSetBaudRate(int speed)
 {
   // setup and send baud rate command
   // 0=9600, 1=19200, 2=38400, 3=57600, 4=115200
-  String cmd = String("0800");
+  
+  String cmd = String("080"); 
+
+  if (speed == 9600)
+  {
+    cmd = cmd + "0";
+  }
+  else if (speed == 19200)
+  {
+    cmd = cmd + "1";
+  }  
+  else if (speed == 38400)
+  {
+    
+    cmd = cmd + "2"; 
+  }
+  else if (speed == 57600)
+  {
+    cmd = cmd + "3"; 
+  }
+  else if (speed = 115200)
+  {
+    cmd = cmd + "4"; 
+  }
+  else  // By default set to 9600 
+  {
+    cmd = cmd + "0";
+    
+  }  
+  
   cmd = appendChecksum(cmd);
   Serial1.print(cmd);
 #ifdef DEBUG_ENABLE
@@ -402,7 +582,7 @@ void alarmSetBaudRate()
   
 void messageCallout(String message)
 {
-  Serial.println("received: " + message);
+  Serial.println("\nreceived: " + message);
   if (message.equals("update"))
   {
     alarmStatusRequest();
