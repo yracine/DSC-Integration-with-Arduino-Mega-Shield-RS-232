@@ -25,8 +25,6 @@ metadata {
         attribute "patioDoor", "string"
         attribute "garageEntryDoor", "string"
         attribute "frontMotion", "string"
-        attribute "familyRmMotion", "string"
-        attribute "diningRmMotion", "string"
         attribute "2ndFloorMotion", "string"
         attribute "basementMotion", "string"
         attribute "basementBedMotion", "string"
@@ -72,8 +70,10 @@ metadata {
                         state "on", label: "Stay", action: "disarm", icon: "st.Home.home4", backgroundColor: "#f1d801"
                         state "off", label: "Stay", action: "armStay",icon: "st.Home.home4", backgroundColor: "#ffffff"
                 }
+                
                 // For the moment, each sensor has its own states due to a smartthings UI framework issue on android.
                 // To be fixed later: states should be 'open', 'closed', 'active', 'inactive'
+                
                 standardTile("frontDoor", "device.frontDoor",width: 1, height: 1, canChangeIcon: false, canChangeBackground: true) {
                         state "FD open", label:'front\nDoor', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
                         state "FD closed", label:'front\nDoor', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
