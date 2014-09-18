@@ -3,10 +3,9 @@
  *
  *  Author: ObyCode
  *   based on work by Josh Foshee
+ *  Modified by Yves Racine to include system statuses
  *  Date: 2014-06-10
  */
-
-
 
 
 
@@ -365,74 +364,6 @@ def parse(String description) {
             else if ( msg.substring(3, 9) == "610006" ){
                 stateToDisplay = "closed"
                 result = createEvent(name: "patioDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609007" ){
-                stateToDisplay = "active"
-                result = createEvent(name: "diningRmMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "active")
-            }
-            else if ( msg.substring(3, 9) == "610007" ){
-                stateToDisplay = "inactive"
-                result = createEvent(name: "diningRmMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "inactive")
-            }
-            else if ( msg.substring(3, 9) == "609008" ){
-                stateToDisplay = "active"
-                result = createEvent(name: "familyRmMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "active")
-            }
-            else if ( msg.substring(3, 9) == "610008" ){
-                stateToDisplay = "inactive"
-                result = createEvent(name: "familyRmMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "inactive")
-            }
-            else if ( msg.substring(3, 9) == "609009" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "basementRearWindow", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610009" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "basementRearWindow", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609010" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "basementBedWindow", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610010" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "basementBedWindow", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609011" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "basementWindows", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610011" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "basementWindows", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609012" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "windowBreak", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610012" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "windowBreak", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609013" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "frontDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610013" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "frontDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609014" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "garageEntryDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610014" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "garageEntryDoor", value: stateToDisplay)
             }
 */
             if ( msg.substring(3, 9) == "609001" ){
