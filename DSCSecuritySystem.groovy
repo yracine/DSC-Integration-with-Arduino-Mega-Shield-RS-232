@@ -1,28 +1,43 @@
 /**
- *  AlarmThing
+ *  SecurityAlarmPanel
  *
  *  Author: ObyCode
  *   based on work by Josh Foshee
  *  Date: 2014-06-10
  */
 
+
+
+
+
 metadata {
     // Automatically generated. Make future change here.
-    definition (name: "AlarmThing", author: "brice@obycode.com") {
+    definition (name: "SecurityAlarmPanel", author: "brice@obycode.com") {
         capability "Alarm"
         capability "Switch"
         capability "Motion Sensor"
         capability "Contact Sensor"
+        capability "Refresh"
         
         attribute "alarmStatus", "string"
         attribute "frontDoor", "string"
-        attribute "sideDoor", "string"
-        attribute "backDoor", "string"
-        attribute "basementDoor", "string"
-        attribute "firstFloorMotion", "string"
-        attribute "secondFloorMotion", "string"
-        attribute "thirdFloorMotion", "string"
+        attribute "garageSideDoor", "string"
+        attribute "patioDoor", "string"
+        attribute "garageEntryDoor", "string"
+        attribute "frontMotion", "string"
+        attribute "familyRmMotion", "string"
+        attribute "diningRmMotion", "string"
+        attribute "2ndFloorMotion", "string"
         attribute "basementMotion", "string"
+        attribute "basementBedMotion", "string"
+        attribute "basementWindows", "string"
+        attribute "basementRearWindow", "string"
+        attribute "basementBedWindow", "string"
+        attribute "windowBreak", "string"
+        attribute "switchAway", "string"
+        attribute "switchStay", "string"
+        attribute "panic", "string"
+        attribute "systemStatus", "string"
 
         command "armAway"
         command "armStay"
@@ -31,67 +46,93 @@ metadata {
         command "update"
         command "chimeToggle"
         command "panic"
+        command "away"
     }
 
         // Simulator metadata
-        simulator {
+    simulator {
             // status messages
             status "ping": "catchall: 0104 0000 01 01 0040 00 6A67 00 00 0000 0A 00 0A70696E67"
             status "hello": "catchall: 0104 0000 01 01 0040 00 0A21 00 00 0000 0A 00 0A48656c6c6f20576f726c6421"
-        }
+    }
 
         // UI tile definitions
-        tiles {
+    tiles {
+        
                 standardTile("alarmStatus", "device.alarmStatus", width: 2, height: 2, canChangeIcon: false, canChangeBackground: false) {
-                        state "ready", label: 'Ready', action: "armAway", icon: "st.Home.home2", backgroundColor: "#ffffff"
+                        state "ready", label: 'Ready', action: "armStay", icon: "st.Home.home2", backgroundColor: "#ffffff"
                         state "disarmed", label: 'Ready', action: "armAway", icon: "st.Home.home2", backgroundColor: "#ffffff"
                         state "notready", label: 'Not Ready', icon: "st.Home.home2", backgroundColor: "#ffa81e"
                         state "away", label: 'Away', action: "disarm", icon: "st.Home.home3", backgroundColor: "#add8e6"
-                        state "stay", label: 'Stay', action: "disarm", icon: "st.Home.home4", backgroundColor: "#0000ff"
+                        state "stay", label: 'Stay', action: "disarm", icon: "st.Home.home4", backgroundColor: "#f1d801"
                         state "arming", label: 'Arming', action: "disarm", icon: "st.Home.home2", backgroundColor: "#B8B8B8"
                         state "alarm", label: 'Alarm', action: "clear", icon: "st.Home.home2", backgroundColor: "#ff0000"
                 }
                 standardTile("away", "device.awaySwitch", width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
-                        state "on", label: "Away", action: "armAway", icon: "st.Home.home3", backgroundColor: "#add8e6"
-                        state "off", label: "Away", icon: "st.Home.home3", backgroundColor: "#ffffff"
+                        state "on", label: "Away", action: "disarm", icon: "st.Home.home3", backgroundColor: "#add8e6"
+                        state "off", label: "Away", action: "armAway",icon: "st.Home.home3", backgroundColor: "#ffffff"
                 }
                 standardTile("stay", "device.staySwitch", width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
-                        state "on", label: "Stay", action: "armStay", icon: "st.Home.home4", backgroundColor: "#0000ff"
-                        state "off", label: "Stay", icon: "st.Home.home4", backgroundColor: "#ffffff"
+                        state "on", label: "Stay", action: "disarm", icon: "st.Home.home4", backgroundColor: "#f1d801"
+                        state "off", label: "Stay", action: "armStay",icon: "st.Home.home4", backgroundColor: "#ffffff"
+                }
+                standardTile("frontDoor", "device.frontDoor",width: 1, height: 1, canChangeIcon: false, canChangeBackground: true) {
+                        state "FD open", label:'front\nDoor', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "FD closed", label:'front\nDoor', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("garageDoor", "device.garageEntryDoor", width: 1, height: 1,inactiveLabel: false,  canChangeIcon: true, canChangeBackground: true) {
+                        state "GED open", label:'garage\nEntry Door', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "GED closed", label:'garage\nEntry Door', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("garageSideDoor", "device.garageSideDoor", width: 1, height: 1,inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) {
+                        state "GSD open", label:'garage\nSide Door', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "GSD closed", label:'garage\nSide Door', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("patioDoor", "device.patioDoor", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "PD open", label:'patio\nDoor', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "PD closed", label:'patio\nDoor', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("basementWindows", "device.basementWindows", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "BW open", label:'basement\nWindows', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "BW closed", label:'basement\nWindows', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("basementRearWindow", "device.basementRearWindow", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "BRW open", label:'basement\nRear Window', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "BRW closed", label:'basement\nRear Window', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("basementBedWindow", "device.basementBedWindow", width: 1, height: 1, inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "BBW open", label:'basement\nBed Window', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "BBW closed", label:'basement\nBed Window', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
+                }
+                standardTile("familyRmMotion", "device.familyRmMotion", width: 1, height: 1, inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "FRM active", label:'family Room\nMotion', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+                        state "FRM inactive",label:'family Room\nMotion', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
+                }
+                standardTile("diningRmMotion", "device.diningRmMotion", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "DRM active", label:'dining Room\nMotion', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+                        state "DRM inactive", label:'dining Room\nMotion', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
+                }
+                standardTile("basementMotion", "device.basementMotion", width: 1, height: 1,inactiveLabel: false, canChangeIcon:true, canChangeBackground: true) {
+                        state "BM active", label:'basement\nMotion', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+                        state "BM inactive", label:'basement\nMotion', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
+                }
+                standardTile("2ndFloorMotion", "device.2ndFloorMotion", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "2FM active", label:'2ndFloor\nMotion', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+                        state "2FM inactive", label:'2ndFloor\nMotion', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
+                }
+                standardTile("frontMotion", "device.frontMotion", width: 1, height: 1, inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "FM active", label:'front\nMotion', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+                        state "FM inactive", label:'front\nMotion', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
+                }
+                standardTile("basementBedMotion", "device.basementBedMotion", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "BBM active", label:'basement\nBed Motion', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+                        state "BBM inactive", label:'basement\nBed Motion', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
+                }
+                standardTile("windowBreak", "device.windowBreak", width: 1, height: 1,inactiveLabel: false,canChangeIcon:true, canChangeBackground: true) {
+                        state "WB open", label:'window\nGlass Break', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+                        state "WB closed", label:'window\nGlass Break', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
                 }
 
-                standardTile("frontDoor", "device.frontDoor", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "open", label: 'Front Door', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
-                        state "closed", label: 'Front Door', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
-                }
-                standardTile("sideDoor", "device.sideDoor", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "open", label: 'Side Door', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
-                        state "closed", label: 'Side Door', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
-                }
-                standardTile("backDoor", "device.backDoor", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "open", label: 'Back Door', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
-                        state "closed", label: 'Back Door', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
-                }
-                standardTile("basementDoor", "device.basementDoor", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "open", label: 'Base Door', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
-                        state "closed", label: 'Base Door', icon: "st.contact.contact.closed", backgroundColor: "#79b821"
-                }
-                standardTile("firstFloorMotion", "device.firstFloorMotion", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "active", label: '1st Flr', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
-                        state "inactive", label: '1st Flr', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
-                }
-                standardTile("secondFloorMotion", "device.secondFloorMotion", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "active", label: '2nd Flr', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
-                        state "inactive", label: '2nd Flr', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
-                }
-                standardTile("thirdFloorMotion", "device.thirdFloorMotion", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "active", label: '3rd Flr', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
-                        state "inactive", label: '3rd Flr', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
-                }
-                standardTile("basementMotion", "device.basementMotion", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true) {
-                        state "active", label: 'Basement', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
-                        state "inactive", label: 'Basement', icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
-                }
                 standardTile("chime", "device.chime", width:1, height: 1, canChangeIcon: false, canChangeBackground: false) {
                         state "chimeOff", label:'Chime', action:'chimeToggle', icon:"st.secondary.off", backgroundColor: "#ffffff"
                         state "chimeOn", label:'', action:'chimeToggle', icon:"st.secondary.beep", backgroundColor: "#ffffff"
@@ -99,22 +140,33 @@ metadata {
                 standardTile("panic", "device.panic", width: 1, height: 1, canChangeIcon: false, canChangeBackground: true) {
                         state "panic", label:'Panic', action:"panic", icon:"st.alarm.alarm.alarm", backgroundColor:"#ff0000"
                 }
+		        valueTile("systemStatus", "device.systemStatus", inactiveLabel: false,
+		 	               decoration: "flat", width: 3, height: 1) {
+			               state "default", label: '${currentValue}'
+		        }
                 standardTile("refresh", "device.refresh", inactiveLabel: false, width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
-                        state "default", action:"update", icon:"st.secondary.refresh"
+                        state "default", action:"refresh", icon:"st.secondary.refresh"
                 }
                 main(["alarmStatus"])
-                details(["alarmStatus","away","stay","frontDoor","sideDoor","backDoor","basementDoor","firstFloorMotion","secondFloorMotion","thirdFloorMotion","basementMotion","chime","refresh","panic"])
+                details(["alarmStatus","away","stay","frontDoor","garageSideDoor","patioDoor","garageDoor","frontMotion","2ndFloorMotion","familyRmMotion","diningRmMotion","basementMotion","basementBedMotion","basementWindows", "basementBedWindow", "basementRearWindow","windowBreak", "chime","systemStatus","refresh","panic"])
         }
 }
 
+
+
 // Parse incoming device messages to generate events
 def parse(String description) {
+
     log.debug description
+    def stateToDisplay
+    
     def msg = zigbee.parse(description)?.text
     log.debug "Received ${msg}"
     def result
-    if (!msg || msg == "ping") {
+    
+    if (!msg || msg.trim() == "ping") {
         result = createEvent(name: null, value: msg)
+//        update() 
     } else if ( msg.length() >= 4 ) {
         if ( msg.substring(0, 2) == "RD" ) {
             if (msg[3] == "0") {
@@ -124,6 +176,7 @@ def parse(String description) {
                 //createEvent(name: "stay", value: "off")
                 sendEvent(name: "switchAway", value: "off")
                 sendEvent(name: "switchStay", value: "off")
+                sendEvent(name: "contact", value: "open")
             }
             else {
                 result = createEvent(name: "alarmStatus", value: "ready")
@@ -134,27 +187,140 @@ def parse(String description) {
                 sendEvent(name: "switchStay", value: "on")
                 sendEvent(name: "switch", value: "off")
                 sendEvent(name: "panic", value: "off")
+                sendEvent(name: "contact", value: "open")
+                sendEvent(name: "systemStatus", value: "System Status\nNo events")
             }
         // Process arm update
         } else if ( msg.substring(0, 2) == "AR" ) {
             if (msg[3] == "0") {
-                result = createEvent(name: "alarmStatus", value: "disarmed")
+                result = createEvent(name: "alarmStatus", value: "disarmed") 
                 sendEvent(name: "switch", value: "off")
+                sendEvent(name: "contact", value: "open")
             }
             else if (msg[3] == "1") {
                 if (msg[4] == "0" | msg[4] == "2") {
                     result = createEvent(name: "alarmStatus", value: "away")
                     sendEvent(name: "switch", value: "on")
+                    sendEvent(name: "contact", value: "closed")
                 }
                 else if (msg[4] == "1" | msg[4] == "3") {
                     result = createEvent(name: "alarmStatus", value: "stay")
                     sendEvent(name: "switch", value: "on")
+                    sendEvent(name: "contact", value: "closed")
                 }
             }
             else if (msg[3] == "2") {
                 result = createEvent(name: "alarmStatus", value: "arming")
                 sendEvent(name: "switch", value: "on")
             }
+        } else if ( msg.substring(0, 2) == "SY" ) {
+         // Process various system statuses
+            if ( msg.substring(3, 3) == "658")  {
+            
+                result = createEvent(name: "systemStatus", value: "System Status\nKeypad Lockout")
+            
+            }
+            else if ( msg.substring(3, 3) == "670")  {
+            
+                result = createEvent(name: "systemStatus", value: "System Status\nInvalid Access Code")
+            
+            }
+            else if ( msg.substring(3, 3) == "672")  {
+            
+                result = createEvent(name: "systemStatus", value: "System Status\nFailed to arm")
+            
+            }
+            else if ( msg.substring(3, 3) == "802")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nPanel AC Trouble")
+
+            }
+            else if ( msg.substring(3, 3) == "803")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nPanel AC Trouble Rest")
+
+            }
+            else if ( msg.substring(3, 3) == "806")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nSystem Bell Trouble")
+
+            }
+            else if ( msg.substring(3, 3) == "807")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nSystem Bell Trouble Rest")
+
+            }
+            else if ( msg.substring(3, 3) == "810")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nTLM line 1 Trouble")
+
+            }
+            else if ( msg.substring(3, 3) == "811")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nTLM line 1 Trouble Rest")
+
+            }
+            else if ( msg.substring(3, 3) == "812")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nTLM line 2 Trouble")
+
+            }
+            else if ( msg.substring(3, 3) == "813")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nTLM line 2 Trouble Rest")
+
+            }
+            else if ( msg.substring(3, 3) == "821")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nLow Battery at " + substring(6,3))
+
+            }
+            else if ( msg.substring(3, 3) == "822")  {
+
+                
+                result = createEvent(name: "systemStatus", value: "System Status\nLow Battery Rest at " + substring(6,3))
+
+            }
+            else if ( msg.substring(3, 3) == "829")  {
+
+                result = createEvent(name: "systemStatus", value: "System Status\nSystem Tamper")
+
+            }
+            else if ( msg.substring(3, 3) == "830")  {
+
+                result = createEvent(name: "systemStatus", value: "System Status\nSystem Tamper Rest")
+
+            }
+            else if ( msg.substring(3, 3) == "840")  {
+
+                result = createEvent(name: "systemStatus", value: "System Status\nTrouble Status(LCD)")
+
+            }
+            else if ( msg.substring(3, 3) == "841")  {
+
+                result = createEvent(name: "systemStatus", value: "System Status\nTrouble Status Rest")
+
+            }
+            else if ( msg.substring(3, 3) == "896")  {
+
+                result = createEvent(name: "systemStatus", value: "System Status\nKeybus fault")
+
+            }
+            else if ( msg.substring(3, 3) == "897")  {
+
+                result = createEvent(name: "systemStatus", value: "System Status\nKeybus Fault Rest")
+
+            }
+         
         // Process alarm update
         } else if ( msg.substring(0, 2) == "AL" ) {
             if (msg[3] == "1") {
@@ -162,92 +328,263 @@ def parse(String description) {
             }
         // Process chime update
         } else if ( msg.substring(0, 2) == "CH" ) {
-            if (msg[3] == "1")
+            if (msg[3] == "1") {
                 result = createEvent(name: "chime", value: "chimeOn")
-            else
+            } else {
                 result = createEvent(name: "chime", value: "chimeOff")
+            }    
         // Process zone update
         } else if ( msg.substring(0, 2) == "ZN" ) {
+/*        
             if ( msg.substring(3, 9) == "609001" ){
-              def state = "open"
-              result = createEvent(name: "frontDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "active"
+                result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
             }
             else if ( msg.substring(3, 9) == "610001" ){
-              def state = "closed"
-              result = createEvent(name: "frontDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "inactive"
+                result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+
             }
             else if ( msg.substring(3, 9) == "609002" ){
-              def state = "open"
-              result = createEvent(name: "sideDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "active"
+                result = createEvent(name: "basementMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
             }
             else if ( msg.substring(3, 9) == "610002" ){
-              def state = "closed"
-              result = createEvent(name: "sideDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "inactive"
+                result = createEvent(name: "basementMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
             }
             else if ( msg.substring(3, 9) == "609003" ){
-              def state = "open"
-              result = createEvent(name: "backDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "active"
+                result = createEvent(name: "basementBedMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
             }
             else if ( msg.substring(3, 9) == "610003" ){
-              def state = "closed"
-              result = createEvent(name: "backDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "inactive"
+                result = createEvent(name: "basementBedMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
             }
             else if ( msg.substring(3, 9) == "609004" ){
-              def state = "open"
-              result = createEvent(name: "basementDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "active"
+                result = createEvent(name: "frontMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value:  "active")
             }
             else if ( msg.substring(3, 9) == "610004" ){
-              def state = "closed"
-              result = createEvent(name: "basementDoor", value: state)
-              sendEvent(name: "contact", value: state)
+                stateToDisplay = "inactive"
+                result = createEvent(name: "frontMotion", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609005" ){
+                stateToDisplay = "open"
+                result = createEvent(name: "garageSideDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610005" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "garageSideDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609006" ){
+                stateToDisplay = "open"
+                result = createEvent(name: "patioDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610006" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "patioDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609007" ){
+                stateToDisplay = "active"
+                result = createEvent(name: "diningRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
+            }
+            else if ( msg.substring(3, 9) == "610007" ){
+                stateToDisplay = "inactive"
+                result = createEvent(name: "diningRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+            }
+            else if ( msg.substring(3, 9) == "609008" ){
+                stateToDisplay = "active"
+                result = createEvent(name: "familyRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
+            }
+            else if ( msg.substring(3, 9) == "610008" ){
+                stateToDisplay = "inactive"
+                result = createEvent(name: "familyRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+            }
+            else if ( msg.substring(3, 9) == "609009" ){
+                stateToDisplay = "open"
+                result = createEvent(name: "basementRearWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610009" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "basementRearWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609010" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "basementBedWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610010" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "basementBedWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609011" ){
+                stateToDisplay = "open"
+                result = createEvent(name: "basementWindows", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610011" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "basementWindows", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609012" ){
+                stateToDisplay = "open"
+                result = createEvent(name: "windowBreak", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610012" ){
+                stateToDisplay = "closed"
+                result = createEvent(name: "windowBreak", value: stateToDisplay)
             }
             else if ( msg.substring(3, 9) == "609013" ){
-              def state = "active"
-              result = createEvent(name: "basementMotion", value: state)
-              sendEvent(name: "motion", value: state)
+                stateToDisplay = "open"
+                result = createEvent(name: "frontDoor", value: stateToDisplay)
             }
             else if ( msg.substring(3, 9) == "610013" ){
-              def state = "inactive"
-              result = createEvent(name: "basementMotion", value: state)
-              sendEvent(name: "motion", value: state)
+                stateToDisplay = "closed"
+                result = createEvent(name: "frontDoor", value: stateToDisplay)
             }
             else if ( msg.substring(3, 9) == "609014" ){
-              def state = "active"
-              result = createEvent(name: "firstFloorMotion", value: state)
-              sendEvent(name: "motion", value: state)
+                stateToDisplay = "open"
+                result = createEvent(name: "garageEntryDoor", value: stateToDisplay)
             }
             else if ( msg.substring(3, 9) == "610014" ){
-              def state = "inactive"
-              result = createEvent(name: "firstFloorMotion", value: state)
-              sendEvent(name: "motion", value: state)
+                stateToDisplay = "closed"
+                result = createEvent(name: "garageEntryDoor", value: stateToDisplay)
             }
-            else if ( msg.substring(3, 9) == "609015" ){
-              def state = "active"
-              result = createEvent(name: "thirdFloorMotion", value: state)
-              sendEvent(name: "motion", value: state)
+*/
+            if ( msg.substring(3, 9) == "609001" ){
+                stateToDisplay = "2FM active"
+                result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
             }
-            else if ( msg.substring(3, 9) == "610015" ){
-              def state = "inactive"
-              result = createEvent(name: "thirdFloorMotion", value: state)
-              sendEvent(name: "motion", value: state)
+            else if ( msg.substring(3, 9) == "610001" ){
+                stateToDisplay = "2FM inactive"
+                result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+
             }
-            else if ( msg.substring(3, 9) == "609016" ){
-              def state = "active"
-              result = createEvent(name: "secondFloorMotion", value: state)
-              sendEvent(name: "motion", value: state)
+            else if ( msg.substring(3, 9) == "609002" ){
+                stateToDisplay = "BM active"
+                result = createEvent(name: "basementMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
             }
-            else if ( msg.substring(3, 9) == "610016" ){
-              def state = "inactive"
-              result = createEvent(name: "secondFloorMotion", value: state)
-              sendEvent(name: "motion", value: state)
+            else if ( msg.substring(3, 9) == "610002" ){
+                stateToDisplay = "BM inactive"
+                result = createEvent(name: "basementMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
             }
+            else if ( msg.substring(3, 9) == "609003" ){
+                stateToDisplay = "BBM active"
+                result = createEvent(name: "basementBedMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
+            }
+            else if ( msg.substring(3, 9) == "610003" ){
+                stateToDisplay = "BBM inactive"
+                result = createEvent(name: "basementBedMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+            }
+            else if ( msg.substring(3, 9) == "609004" ){
+                stateToDisplay = "FM active"
+                result = createEvent(name: "frontMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value:  "active")
+            }
+            else if ( msg.substring(3, 9) == "610004" ){
+                stateToDisplay = "FM inactive"
+                result = createEvent(name: "frontMotion", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609005" ){
+                stateToDisplay = "GSD open"
+                result = createEvent(name: "garageSideDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610005" ){
+                stateToDisplay = "GSD closed"
+                result = createEvent(name: "garageSideDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609006" ){
+                stateToDisplay = "PD open"
+                result = createEvent(name: "patioDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610006" ){
+                stateToDisplay = "PD closed"
+                result = createEvent(name: "patioDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609007" ){
+                stateToDisplay = "DRM active"
+                result = createEvent(name: "diningRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
+            }
+            else if ( msg.substring(3, 9) == "610007" ){
+                stateToDisplay = "DRM inactive"
+                result = createEvent(name: "diningRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+            }
+            else if ( msg.substring(3, 9) == "609008" ){
+                stateToDisplay = "FRM active"
+                result = createEvent(name: "familyRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "active")
+            }
+            else if ( msg.substring(3, 9) == "610008" ){
+                stateToDisplay = "FRM inactive"
+                result = createEvent(name: "familyRmMotion", value: stateToDisplay)
+                sendEvent(name: "motion", value: "inactive")
+            }
+            else if ( msg.substring(3, 9) == "609009" ){
+                stateToDisplay = "BRW open"
+                result = createEvent(name: "basementRearWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610009" ){
+                stateToDisplay = "BRW closed"
+                result = createEvent(name: "basementRearWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609010" ){
+                stateToDisplay = "BBW closed"
+                result = createEvent(name: "basementBedWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610010" ){
+                stateToDisplay = "BBW closed"
+                result = createEvent(name: "basementBedWindow", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609011" ){
+                stateToDisplay = "BW open"
+                result = createEvent(name: "basementWindows", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610011" ){
+                stateToDisplay = "BW closed"
+                result = createEvent(name: "basementWindows", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609012" ){
+                stateToDisplay = "WB open"
+                result = createEvent(name: "windowBreak", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610012" ){
+                stateToDisplay = "WB closed"
+                result = createEvent(name: "windowBreak", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609013" ){
+                stateToDisplay = "FD open"
+                result = createEvent(name: "frontDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610013" ){
+                stateToDisplay = "FD closed"
+                result = createEvent(name: "frontDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "609014" ){
+                stateToDisplay = "GED open"
+                result = createEvent(name: "garageEntryDoor", value: stateToDisplay)
+            }
+            else if ( msg.substring(3, 9) == "610014" ){
+                stateToDisplay = "GED closed"
+                result = createEvent(name: "garageEntryDoor", value: stateToDisplay)
+            }           
             else {
                 log.debug "Unhandled zone: " + msg
             }
@@ -265,6 +602,11 @@ def on() {
 
 def off() {
     disarm()
+}
+
+
+def away() {
+    armAway()
 }
 
 // Commands sent to the device
@@ -308,6 +650,10 @@ def panic() {
 // TODO: Need to send off, on, off with a few secs in between to stop and clear the alarm
 def clear() {
     disarm()
+}
+
+def refresh() {
+    update()
 }
 
 def update() {
