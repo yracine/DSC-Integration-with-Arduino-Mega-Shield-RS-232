@@ -30,9 +30,10 @@ A SmartThings shield is used to interface with the SmartThings hub and cloud. Th
 
 The official SmartThings Arduino library will only support a software serial port, as a result the library had to be modified in order to utilize a hardware serial port. 
 
-All four of those lines had to be re-routed to the dedicated serial ports of the Arduino Mega. I did this by bending the pins, and running wires to the appropriate ports. The Rx and Tx pins of the RS232 shield are bent, and wires are run to connect Rx to port 19 (Rx1) of the MEGA, and Tx to port 18 (Tx1). Similarly, the Rx and Tx pins of the SmartThings shield are bent and wires are run to pins 17 (Rx2) and 16 (Tx2), respectively. See the pictures (IMG_426*.JPG) for details. 
-
 The order of the shield stacking is the following (from bottom to top), Arduino Mega, SmartThings shield and RS232 shield. Make sure that the SmartThings shield serial port selection switch is set to pins 1,2. By default the RS232 shield will also use pins 1 &2.
+
+All four lines had to be re-routed to the dedicated serial ports of the Arduino Mega. I did this by bending the pins, and running wires to the appropriate ports. The Rx and Tx pins of the RS232 shield are bent, and wires are run to connect Rx to port 19 (Rx1) of the MEGA, and Tx to port 18 (Tx1). Similarly, the Rx and Tx pins of the SmartThings shield are bent and wires are run to pins 17 (Rx2) and 16 (Tx2), respectively. See the pictures (IMG_426*.JPG) for details. 
+
 
 Before programming the Arduino board you will need to modify the SmartthingsDCSAlarm.ino file with your pin code (3 places, see comments), otherwise arming and disarming will not work.
 
