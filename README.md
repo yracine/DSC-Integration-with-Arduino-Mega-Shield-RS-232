@@ -32,10 +32,37 @@ The official SmartThings Arduino library will only support a software serial por
 
 The order of the shield stacking is the following (from bottom to top), Arduino Mega, SmartThings shield and RS232 shield. Make sure that the SmartThings shield serial port selection switch is set to pins 1,2. By default the RS232 shield will also use pins 1 &2.
 
-All four lines had to be re-routed to the dedicated serial ports of the Arduino Mega. I did this by bending the pins, and running wires to the appropriate ports. The Rx and Tx pins of the RS232 shield are bent, and wires are run to connect Rx to port 19 (Rx1) of the MEGA, and Tx to port 18 (Tx1). Similarly, the Rx and Tx pins of the SmartThings shield are bent and wires are run to pins 17 (Rx2) and 16 (Tx2), respectively. See the pictures (IMG_426*.JPG) for details. 
 
+All four lines had to be re-routed to the dedicated serial ports of the Arduino Mega. You do it by bending the pins, and running wires to the appropriate ports. The Rx and Tx pins of the RS232 shield are bent, and wires are run to connect Rx to port 19 (Rx1) of the MEGA, and Tx to port 18 (Tx1). Similarly, the Rx and Tx pins of the SmartThings shield are bent and wires are run to pins 17 (Rx2) and 16 (Tx2), respectively. See the pictures (IMG_426*.JPG) for details. 
 
 Before programming the Arduino board you will need to modify the SmartthingsDCSAlarm.ino file with your pin code (3 places, see comments), otherwise arming and disarming will not work.
+
+Arduino Code
+------------
+
+To load the code onto the Arduino, you will need the Arduino developer environment:
+
+http://arduino.cc/en/main/software
+
+Once the software is installed, the first thing to do is obtain the required libraries.
+
+Timer library was created by Simon Monk as modified by JChristensen. A copy is included in this repository/release for your convenience.
+
+SmartThings Mega library contained in this repository/release
+SoftwareSerial library was default library provided with Arduino IDE
+
+Once you have the required files downloaded you can import them within the Arduino IDE. Go to the Sketch:Import Library;Add Library drop down menu. Once you have added the libraries, they will show up under Sketch:Add Library:Contributed as "Timer" and "SmartThingsMega". Be sure the Timer library is installed named as "Timer"
+
+You can connect the Arduino Uno to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer to tehe ArduinoMEGA
+
+Pairing instructions for the Arduino to the SmartThings hub can be found at SmartThings.com and are copied here:
+
+“To join the shield to your SmartThings hub, go to “Add SmartThings” mode in the
+SmartThings app by hitting the “+” icon in the desired location, and then press the Switch button on the shield. You should see the shield appear in the app.
+
+To unpair the shield, press and hold the Switch button for 6 seconds and release. The shield will now be unpaired from your SmartThings Hub.”
+
+Once you have finished transfering the code to the Arduino, you can remove the USB and power the Arduino using a 9V transformer.
 
 A few pictures of the hardware can be found in the repository.
 
