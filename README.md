@@ -66,8 +66,8 @@ Once you have finished transfering the code to the Arduino, you can remove the U
 
 A few pictures of the hardware can be found in the repository.
 
-Setup of the custom device type
--------------------------------
+Setup of the Smartthings custom device type
+-------------------------------------------
 The source code for the device type is also provided. You will need to modify this file to setup the proper zone numbers for your system. Use the provided source code and publish the device type. Pair your SmartThings shield to you hub and then manually change its device type to the one you created. You should now be able to see your new device and will be able to arm/disarm, monitor the state of the zones, trigger the panic alarm, etc.
 
 Credits
