@@ -55,7 +55,7 @@ SoftwareSerial library was default library provided with Arduino IDE
 
 Once you have the required files downloaded you can import them within the Arduino IDE. Go to the Sketch:Import Library;Add Library drop down menu. Once you have added the libraries, they will show up under Sketch:Add Library:Contributed as "Timer" and "SmartThingsMega". Be sure the Timer library is installed named as "Timer"
 
-You can connect the Arduino Mega to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer to tehe ArduinoMEGA
+You can connect the Arduino Mega to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer it to the ArduinoMEGA
 
 Setup of the Arduino Shield and Smartthings custom device type
 ---------------------------------------------------------------
