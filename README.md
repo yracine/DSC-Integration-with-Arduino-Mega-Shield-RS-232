@@ -35,8 +35,6 @@ All four lines had to be re-routed to the dedicated serial ports of the Arduino 
 
 Before programming the Arduino board you will need to modify the SmartthingsDCSAlarm.ino file with your pin code (3 places, see comments), otherwise arming and disarming will not work.
 
-Once you have finished transfering the code to the Arduino, you can remove the USB and power the Arduino using a 9V transformer.
-
 A few pictures of the hardware can be found in the repository.
 
 Arduino Code
@@ -56,6 +54,8 @@ SoftwareSerial library was default library provided with Arduino IDE
 Once you have the required files downloaded you can import them within the Arduino IDE. Go to the Sketch:Import Library;Add Library drop down menu. Once you have added the libraries, they will show up under Sketch:Add Library:Contributed as "Timer" and "SmartThingsMega". Be sure the Timer library is installed named as "Timer"
 
 You can connect the Arduino Mega to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer it to the ArduinoMEGA
+
+Once you have finished transfering the code to the Arduino, you can remove the USB and power the Arduino using a 9V transformer.
 
 Setup of the Arduino Shield and Smartthings custom device type
 ---------------------------------------------------------------
