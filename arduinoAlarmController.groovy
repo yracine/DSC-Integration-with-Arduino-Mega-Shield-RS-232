@@ -19,7 +19,7 @@ definition(
  
 preferences {
 
-	page(name:"controllerSetup")
+    page(name:"controllerSetup")
 	
     page(name: "wiredZoneSetup")
     
@@ -113,7 +113,7 @@ def initialize() {
     for (int i=1;i<=settings.zoneCount;i++) {
     	
     	def name = "zone$i"
-		def value = settings[name]
+	def value = settings[name]
 
         log.debug "checking device: ${name}, value: $value"
 
@@ -144,7 +144,7 @@ def initialize() {
     for (int i=1;i<=settings.wirelessZoneCount;i++) {
     	
     	def name = "wirelesszone$i"
-		def value = settings[name]
+	def value = settings[name]
 
         log.debug "checking device: ${name}, value: $value"
 
