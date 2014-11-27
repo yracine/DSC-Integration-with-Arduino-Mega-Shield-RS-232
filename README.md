@@ -69,6 +69,8 @@ To unpair the shield, press and hold the Switch button for 6 seconds and release
 
 The source code for the device type is also provided. You will need to modify this file to setup the proper zone numbers for your system. Use the provided source code and publish the device type. Pair your SmartThings shield to you hub and then manually change its device type to the one you created. You should now be able to see your new device and will be able to arm/disarm, monitor the state of the zones, trigger the panic alarm, etc.
 
+You can also use the smartapp ArduinoAlarmController to create individual sensors as child Devices.
+
 Credits
 --------
 * Timer library from Simon Monk
