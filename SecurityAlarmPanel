@@ -31,6 +31,8 @@ metadata {
         attribute "switchStay", "string"
         attribute "panic", "string"
         attribute "systemStatus", "string"
+        attribute "response", "string"
+
 
         command "armAway"
         command "armStay"
@@ -150,6 +152,8 @@ def parse(String description) {
                 sendEvent(name: "switchAway", value: "off")
                 sendEvent(name: "switchStay", value: "off")
                 sendEvent(name: "contact", value: "open")
+                sendEvent(name: "response",  value: "alarmStatus notready", type: alarmStatus)
+
             }
             else {
                 result = createEvent(name: "alarmStatus", value: "ready")
@@ -162,6 +166,8 @@ def parse(String description) {
                 sendEvent(name: "panic", value: "off")
                 sendEvent(name: "contact", value: "open")
                 sendEvent(name: "systemStatus", value: "System Status\nNo events")
+                sendEvent(name: "response",  value: "alarmStatus ready", type: alarmStatus)
+
             }
         // Process arm update
         } else if ( msg.substring(0, 2) == "AR" ) {
@@ -169,22 +175,26 @@ def parse(String description) {
                 result = createEvent(name: "alarmStatus", value: "disarmed") 
                 sendEvent(name: "switch", value: "off")
                 sendEvent(name: "contact", value: "open")
+                sendEvent(name: "response",  value: "alarmStatus disarmed", type: alarmStatus)
             }
             else if (msg[3] == "1") {
                 if (msg[4] == "0" | msg[4] == "2") {
                     result = createEvent(name: "alarmStatus", value: "away")
                     sendEvent(name: "switch", value: "on")
                     sendEvent(name: "contact", value: "closed")
+                    sendEvent(name: "response",  value: "alarmStatus away", type: alarmStatus)
                 }
                 else if (msg[4] == "1" | msg[4] == "3") {
                     result = createEvent(name: "alarmStatus", value: "stay")
                     sendEvent(name: "switch", value: "on")
                     sendEvent(name: "contact", value: "closed")
+                    sendEvent(name: "response",  value: "alarmStatus stay", type: alarmStatus)
                 }
             }
             else if (msg[3] == "2") {
                 result = createEvent(name: "alarmStatus", value: "arming")
                 sendEvent(name: "switch", value: "on")
+                sendEvent(name: "response",  value: "alarmStatus arming", type: alarmStatus)
             }
         } else if ( msg.substring(0, 2) == "SY" ) {
          // Process various system statuses
@@ -298,7 +308,8 @@ def parse(String description) {
         } else if ( msg.substring(0, 2) == "AL" ) {
             if (msg[3] == "1") {
                 result = createEvent(name: "alarmStatus", value: "alarm")
-            }
+                sendEvent(name: "response",  value: "alarmStatus alarm", type: alarmStatus)
+	}
         // Process chime update
         } else if ( msg.substring(0, 2) == "CH" ) {
             if (msg[3] == "1") {
@@ -308,103 +319,53 @@ def parse(String description) {
             }    
         // Process zone update
         } else if ( msg.substring(0, 2) == "ZN" ) {
-/*        
-            if ( msg.substring(3, 9) == "609001" ){
-                stateToDisplay = "active"
-                result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "active")
-            }
-            else if ( msg.substring(3, 9) == "610001" ){
-                stateToDisplay = "inactive"
-                result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "inactive")
-
-            }
-            else if ( msg.substring(3, 9) == "609002" ){
-                stateToDisplay = "active"
-                result = createEvent(name: "basementMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "active")
-            }
-            else if ( msg.substring(3, 9) == "610002" ){
-                stateToDisplay = "inactive"
-                result = createEvent(name: "basementMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "inactive")
-            }
-            else if ( msg.substring(3, 9) == "609003" ){
-                stateToDisplay = "active"
-                result = createEvent(name: "basementBedMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "active")
-            }
-            else if ( msg.substring(3, 9) == "610003" ){
-                stateToDisplay = "inactive"
-                result = createEvent(name: "basementBedMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value: "inactive")
-            }
-            else if ( msg.substring(3, 9) == "609004" ){
-                stateToDisplay = "active"
-                result = createEvent(name: "frontMotion", value: stateToDisplay)
-                sendEvent(name: "motion", value:  "active")
-            }
-            else if ( msg.substring(3, 9) == "610004" ){
-                stateToDisplay = "inactive"
-                result = createEvent(name: "frontMotion", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609005" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "garageSideDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610005" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "garageSideDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "609006" ){
-                stateToDisplay = "open"
-                result = createEvent(name: "patioDoor", value: stateToDisplay)
-            }
-            else if ( msg.substring(3, 9) == "610006" ){
-                stateToDisplay = "closed"
-                result = createEvent(name: "patioDoor", value: stateToDisplay)
-            }
-*/
             if ( msg.substring(3, 9) == "609001" ){
                 stateToDisplay = "2FM active"
                 result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "active")
+                sendEvent(name: "response",  value: "r 1 active", type: "Motion Detector")
             }
             else if ( msg.substring(3, 9) == "610001" ){
                 stateToDisplay = "2FM inactive"
                 result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "inactive")
+                sendEvent(name: "response",  value: "r 1 inactive", type: "Motion Detector")
 
             }
             else if ( msg.substring(3, 9) == "609002" ){
                 stateToDisplay = "BM active"
                 result = createEvent(name: "basementMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "active")
+                sendEvent(name: "response",  value: "r 2 active", type: "Motion Detector") 
             }
             else if ( msg.substring(3, 9) == "610002" ){
                 stateToDisplay = "BM inactive"
                 result = createEvent(name: "basementMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "inactive")
+                sendEvent(name: "response",  value: "r 2 inactive", type: "Motion Detector") 
             }
             else if ( msg.substring(3, 9) == "609003" ){
                 stateToDisplay = "BBM active"
                 result = createEvent(name: "basementBedMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "active")
+                sendEvent(name: "response",  value: "r 3 active", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "610003" ){
                 stateToDisplay = "BBM inactive"
                 result = createEvent(name: "basementBedMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "inactive")
+                sendEvent(name: "response",  value: "r 3 inactive", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "609004" ){
                 stateToDisplay = "FM active"
                 result = createEvent(name: "frontMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value:  "active")
+                sendEvent(name: "response",  value: "r 4 active", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "610004" ){
                 stateToDisplay = "FM inactive"
                 result = createEvent(name: "frontMotion", value: stateToDisplay)
+                sendEvent(name: "response",  value: "r 4 inactive", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "609005" ){
                 stateToDisplay = "GSD open"
@@ -413,14 +374,17 @@ def parse(String description) {
             else if ( msg.substring(3, 9) == "610005" ){
                 stateToDisplay = "GSD closed"
                 result = createEvent(name: "garageSideDoor", value: stateToDisplay)
+                sendEvent(name: "response",  value: "r 5 open", type: "Open/Closed Sensor")            
             }
             else if ( msg.substring(3, 9) == "609006" ){
                 stateToDisplay = "PD open"
                 result = createEvent(name: "patioDoor", value: stateToDisplay)
+                sendEvent(name: "response",  value: "r 6 open", type: "Open/Closed Sensor")            
             }
             else if ( msg.substring(3, 9) == "610006" ){
                 stateToDisplay = "PD closed"
                 result = createEvent(name: "patioDoor", value: stateToDisplay)
+                sendEvent(name: "response",  value: "r 6 open", type: "Open/Closed Sensor")            
             }     
             else {
                 log.debug "Unhandled zone: " + msg
