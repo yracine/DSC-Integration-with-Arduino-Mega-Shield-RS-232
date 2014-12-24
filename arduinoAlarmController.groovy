@@ -1,4 +1,4 @@
-**
+/**
  *  Arduino Alarm Controller
  *
  *  Copyright 2014 Kevin Lewis
