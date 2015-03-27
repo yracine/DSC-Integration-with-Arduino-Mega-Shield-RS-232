@@ -165,7 +165,7 @@ def parse(String description) {
                 sendEvent(name: "switch", value: "off")
                 sendEvent(name: "panic", value: "off")
                 sendEvent(name: "contact", value: "open")
-                sendEvent(name: "systemStatus", value: "System Status\nNo events")
+                sendEvent(name: "systemStatus", value: "System Status:No events")
                 sendEvent(name: "response",  value: "alarmStatus ready", type: alarmStatus)
 
             }
