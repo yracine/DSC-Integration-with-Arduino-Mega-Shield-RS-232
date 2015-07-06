@@ -130,6 +130,7 @@ metadata {
 
 
 // Parse incoming device messages to generate events
+
 def parse(String description) {
 
     log.debug description
@@ -147,32 +148,28 @@ def parse(String description) {
             if (msg[3] == "0") {
                 result = createEvent(name: "alarmStatus", value: "notready")
                 // When status is "Not Ready" we cannot arm
-                //createEvent(name: "away", value: "off")
-                //createEvent(name: "stay", value: "off")
-                sendEvent(name: "switchAway", value: "off")
-                sendEvent(name: "switchStay", value: "off")
+                sendEvent(name: "awaySwitch", value: "off")
+                sendEvent(name: "staySwitch", value: "off")
                 sendEvent(name: "contact", value: "open")
                 sendEvent(name: "response",  value: "alarmStatus notready", type: alarmStatus)
-
             }
             else {
                 result = createEvent(name: "alarmStatus", value: "ready")
                 // When status is "Ready" we can arm
-                //createEvent(name: "away", value: "on")
-                //createEvent(name: "stay", value: "on")
-                sendEvent(name: "switchAway", value: "on")
-                sendEvent(name: "switchStay", value: "on")
+                sendEvent(name: "awaySwitch", value: "off")
+                sendEvent(name: "staySwitch", value: "off")
                 sendEvent(name: "switch", value: "off")
                 sendEvent(name: "panic", value: "off")
                 sendEvent(name: "contact", value: "open")
                 sendEvent(name: "systemStatus", value: "System Status:No events")
                 sendEvent(name: "response",  value: "alarmStatus ready", type: alarmStatus)
-
             }
         // Process arm update
         } else if ( msg.substring(0, 2) == "AR" ) {
             if (msg[3] == "0") {
                 result = createEvent(name: "alarmStatus", value: "disarmed") 
+                sendEvent(name: "awaySwitch", value: "off")
+                sendEvent(name: "staySwitch", value: "off")
                 sendEvent(name: "switch", value: "off")
                 sendEvent(name: "contact", value: "open")
                 sendEvent(name: "response",  value: "alarmStatus disarmed", type: alarmStatus)
@@ -180,12 +177,16 @@ def parse(String description) {
             else if (msg[3] == "1") {
                 if (msg[4] == "0" | msg[4] == "2") {
                     result = createEvent(name: "alarmStatus", value: "away")
+                	sendEvent(name: "awaySwitch", value: "on")
+                	sendEvent(name: "staySwitch", value: "off")
                     sendEvent(name: "switch", value: "on")
                     sendEvent(name: "contact", value: "closed")
                     sendEvent(name: "response",  value: "alarmStatus away", type: alarmStatus)
                 }
                 else if (msg[4] == "1" | msg[4] == "3") {
                     result = createEvent(name: "alarmStatus", value: "stay")
+                    sendEvent(name: "awaySwitch", value: "off")
+                    sendEvent(name: "staySwitch", value: "on")
                     sendEvent(name: "switch", value: "on")
                     sendEvent(name: "contact", value: "closed")
                     sendEvent(name: "response",  value: "alarmStatus stay", type: alarmStatus)
@@ -193,6 +194,8 @@ def parse(String description) {
             }
             else if (msg[3] == "2") {
                 result = createEvent(name: "alarmStatus", value: "arming")
+                sendEvent(name: "awaySwitch", value: "off")
+                sendEvent(name: "staySwitch", value: "off")
                 sendEvent(name: "switch", value: "on")
                 sendEvent(name: "response",  value: "alarmStatus arming", type: alarmStatus)
             }
@@ -309,7 +312,7 @@ def parse(String description) {
             if (msg[3] == "1") {
                 result = createEvent(name: "alarmStatus", value: "alarm")
                 sendEvent(name: "response",  value: "alarmStatus alarm", type: alarmStatus)
-	}
+            }
         // Process chime update
         } else if ( msg.substring(0, 2) == "CH" ) {
             if (msg[3] == "1") {
