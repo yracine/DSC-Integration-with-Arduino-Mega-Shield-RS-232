@@ -177,8 +177,8 @@ def parse(String description) {
             else if (msg[3] == "1") {
                 if (msg[4] == "0" | msg[4] == "2") {
                     result = createEvent(name: "alarmStatus", value: "away")
-                	sendEvent(name: "awaySwitch", value: "on")
-                	sendEvent(name: "staySwitch", value: "off")
+                    sendEvent(name: "awaySwitch", value: "on")
+                     sendEvent(name: "staySwitch", value: "off")
                     sendEvent(name: "switch", value: "on")
                     sendEvent(name: "contact", value: "closed")
                     sendEvent(name: "response",  value: "alarmStatus away", type: alarmStatus)
