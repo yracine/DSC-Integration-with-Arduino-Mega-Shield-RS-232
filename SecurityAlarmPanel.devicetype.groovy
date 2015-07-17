@@ -201,107 +201,107 @@ def parse(String description) {
             }
         } else if ( msg.substring(0, 2) == "SY" ) {
          // Process various system statuses
-            if ( msg.substring(3, 3) == "658")  {
+            if ( msg.substring(3, 6) == "658")  {
             
                 result = createEvent(name: "systemStatus", value: "System Status\nKeypad Lockout")
             
             }
-            else if ( msg.substring(3, 3) == "670")  {
+            else if ( msg.substring(3, 6) == "670")  {
             
                 result = createEvent(name: "systemStatus", value: "System Status\nInvalid Access Code")
             
             }
-            else if ( msg.substring(3, 3) == "672")  {
+            else if ( msg.substring(3, 6) == "672")  {
             
                 result = createEvent(name: "systemStatus", value: "System Status\nFailed to arm")
             
             }
-            else if ( msg.substring(3, 3) == "802")  {
+            else if ( msg.substring(3, 6) == "802")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nPanel AC Trouble")
 
             }
-            else if ( msg.substring(3, 3) == "803")  {
+            else if ( msg.substring(3, 6) == "803")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nPanel AC Trouble Rest")
 
             }
-            else if ( msg.substring(3, 3) == "806")  {
+            else if ( msg.substring(3, 6) == "806")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nSystem Bell Trouble")
 
             }
-            else if ( msg.substring(3, 3) == "807")  {
+            else if ( msg.substring(3, 6) == "807")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nSystem Bell Trouble Rest")
 
             }
-            else if ( msg.substring(3, 3) == "810")  {
+            else if ( msg.substring(3, 6) == "810")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nTLM line 1 Trouble")
 
             }
-            else if ( msg.substring(3, 3) == "811")  {
+            else if ( msg.substring(3, 6) == "811")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nTLM line 1 Trouble Rest")
 
             }
-            else if ( msg.substring(3, 3) == "812")  {
+            else if ( msg.substring(3, 6) == "812")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nTLM line 2 Trouble")
 
             }
-            else if ( msg.substring(3, 3) == "813")  {
+            else if ( msg.substring(3, 6) == "813")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nTLM line 2 Trouble Rest")
 
             }
-            else if ( msg.substring(3, 3) == "821")  {
+            else if ( msg.substring(3, 6) == "821")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nLow Battery at " + substring(6,3))
 
             }
-            else if ( msg.substring(3, 3) == "822")  {
+            else if ( msg.substring(3, 6) == "822")  {
 
                 
                 result = createEvent(name: "systemStatus", value: "System Status\nLow Battery Rest at " + substring(6,3))
 
             }
-            else if ( msg.substring(3, 3) == "829")  {
+            else if ( msg.substring(3, 6) == "829")  {
 
                 result = createEvent(name: "systemStatus", value: "System Status\nSystem Tamper")
 
             }
-            else if ( msg.substring(3, 3) == "830")  {
+            else if ( msg.substring(3, 6) == "830")  {
 
                 result = createEvent(name: "systemStatus", value: "System Status\nSystem Tamper Rest")
 
             }
-            else if ( msg.substring(3, 3) == "840")  {
+            else if ( msg.substring(3, 6) == "840")  {
 
                 result = createEvent(name: "systemStatus", value: "System Status\nTrouble Status(LCD)")
 
             }
-            else if ( msg.substring(3, 3) == "841")  {
+            else if ( msg.substring(3, 6) == "841")  {
 
                 result = createEvent(name: "systemStatus", value: "System Status\nTrouble Status Rest")
 
             }
-            else if ( msg.substring(3, 3) == "896")  {
+            else if ( msg.substring(3, 6) == "896")  {
 
                 result = createEvent(name: "systemStatus", value: "System Status\nKeybus fault")
 
             }
-            else if ( msg.substring(3, 3) == "897")  {
+            else if ( msg.substring(3, 6) == "897")  {
 
                 result = createEvent(name: "systemStatus", value: "System Status\nKeybus Fault Rest")
 
