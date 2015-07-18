@@ -30,7 +30,7 @@ void setup()
   digitalWrite(PIN_THING_LED, LOW);   // set value to LOW (off) to match stateLED=0
   smartthing.shieldSetLED(0, 0, 0);
   // setup IT-100 serial port
-  Serial1.begin(19200);
+  Serial1.begin(9600);
   
   // setup debug port
 #ifdef DEBUG_ENABLE
