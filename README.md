@@ -71,6 +71,19 @@ The source code for the device type is also provided. You will need to modify th
 
 You can also use the smartapp ArduinoAlarmController to create individual sensors as child Devices. Prior to executing the smartapp, you need to create the Open/Close and Motion Detector device types within your own namespace by using the SmartThing code template within the IDE. 
 
+In order to do so,
+
+a) Go to https://graph.api.smartthings.com/ide/devices
+b) Click on new SmartDevice on the right
+c) On the new SmartDevice page, click on the "From Template" tab
+d) Scroll down to Motion Detector
+e) Click "create" at the bottom of the page
+f) Click Save and publish on the next page
+g) Do the same for Open/Close Sensor
+h) Click "create" at the bottom of the page
+i) Click save and publish
+
+
 
 
 Credits
