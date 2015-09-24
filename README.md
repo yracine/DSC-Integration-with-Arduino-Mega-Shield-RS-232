@@ -74,13 +74,21 @@ You can also use the smartapp ArduinoAlarmController to create individual sensor
 In order to do so,
 
 a) Go to https://graph.api.smartthings.com/ide/devices
+
 b) Click on new SmartDevice on the right
+
 c) On the new SmartDevice page, click on the "From Template" tab
+
 d) Scroll down to Motion Detector
+
 e) Click "create" at the bottom of the page
+
 f) Click Save and publish on the next page
+
 g) Do the same for Open/Close Sensor
+
 h) Click "create" at the bottom of the page
+
 i) Click save and publish
 
 
