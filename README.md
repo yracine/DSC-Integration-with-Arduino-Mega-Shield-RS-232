@@ -14,6 +14,7 @@ Required hardware
 * Arduino MEGA
 * Arduino RS232 shield
 * Arduino SmartThings shield
+* Null modem RS-232 cable
 
 Required software
 -----------------
