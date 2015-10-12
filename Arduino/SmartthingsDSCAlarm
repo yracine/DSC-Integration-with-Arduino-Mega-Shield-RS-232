@@ -96,6 +96,22 @@ void loop()
 #endif
           smartthing.send(msg);
         }
+        else if (cmd.equals("621"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Fire Key Alarm");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("622"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Fire Key Alarm Restored");
+#endif
+          smartthing.send(msg);
+        }
         // ready
         else if (cmd.equals("650"))
         {
@@ -313,6 +329,22 @@ void loop()
           String msg = "SY:" + cmd;
 #ifdef DEBUG_ENABLE
           Serial.println("Trouble Status (LCD) Rest");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("842"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Fire Trouble Alarm");
+#endif
+          smartthing.send(msg);
+        }
+        else if (cmd.equals("843"))
+        {
+          String msg = "SY:" + cmd;
+#ifdef DEBUG_ENABLE
+          Serial.println("Fire Trouble Alarm Restored");
 #endif
           smartthing.send(msg);
         }
