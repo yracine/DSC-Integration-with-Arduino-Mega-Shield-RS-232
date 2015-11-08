@@ -92,6 +92,8 @@ h) Click "create" at the bottom of the page
 
 i) Click save and publish
 
+P.S. Each of your zones defined in SecurityAlarmPanel must then be created in the same order as ArduinoAlarmController, so
+that there is a match in the zone event processing.
 
 
 
