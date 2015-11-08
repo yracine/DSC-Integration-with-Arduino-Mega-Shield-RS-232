@@ -326,12 +326,15 @@ def parse(String description) {
                 stateToDisplay = "2FM active"
                 result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "active")
+		// zone number below should match the one defined in ArduinoAlarmController
+		
                 sendEvent(name: "response",  value: "r 1 active", type: "Motion Detector")
             }
             else if ( msg.substring(3, 9) == "610001" ){
                 stateToDisplay = "2FM inactive"
                 result = createEvent(name: "2ndFloorMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "inactive")
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 1 inactive", type: "Motion Detector")
 
             }
@@ -339,55 +342,67 @@ def parse(String description) {
                 stateToDisplay = "BM active"
                 result = createEvent(name: "basementMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "active")
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 2 active", type: "Motion Detector") 
             }
             else if ( msg.substring(3, 9) == "610002" ){
                 stateToDisplay = "BM inactive"
                 result = createEvent(name: "basementMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "inactive")
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 2 inactive", type: "Motion Detector") 
             }
             else if ( msg.substring(3, 9) == "609003" ){
                 stateToDisplay = "BBM active"
                 result = createEvent(name: "basementBedMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "active")
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 3 active", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "610003" ){
                 stateToDisplay = "BBM inactive"
                 result = createEvent(name: "basementBedMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value: "inactive")
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 3 inactive", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "609004" ){
                 stateToDisplay = "FM active"
                 result = createEvent(name: "frontMotion", value: stateToDisplay)
                 sendEvent(name: "motion", value:  "active")
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 4 active", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "610004" ){
                 stateToDisplay = "FM inactive"
                 result = createEvent(name: "frontMotion", value: stateToDisplay)
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 4 inactive", type: "Motion Detector")            
             }
             else if ( msg.substring(3, 9) == "609005" ){
                 stateToDisplay = "GSD open"
                 result = createEvent(name: "garageSideDoor", value: stateToDisplay)
+		// zone number below should match the one defined in ArduinoAlarmController
+                sendEvent(name: "response",  value: "r 5 open", type: "Open/Closed Sensor")            
             }
             else if ( msg.substring(3, 9) == "610005" ){
                 stateToDisplay = "GSD closed"
                 result = createEvent(name: "garageSideDoor", value: stateToDisplay)
-                sendEvent(name: "response",  value: "r 5 open", type: "Open/Closed Sensor")            
+		// zone number below should match the one defined in ArduinoAlarmController
+                sendEvent(name: "response",  value: "r 5 closed", type: "Open/Closed Sensor")            
             }
             else if ( msg.substring(3, 9) == "609006" ){
                 stateToDisplay = "PD open"
                 result = createEvent(name: "patioDoor", value: stateToDisplay)
+		// zone number below should match the one defined in ArduinoAlarmController
                 sendEvent(name: "response",  value: "r 6 open", type: "Open/Closed Sensor")            
             }
             else if ( msg.substring(3, 9) == "610006" ){
                 stateToDisplay = "PD closed"
                 result = createEvent(name: "patioDoor", value: stateToDisplay)
-                sendEvent(name: "response",  value: "r 6 open", type: "Open/Closed Sensor")            
+		// zone number below should match the one defined in ArduinoAlarmController
+                sendEvent(name: "response",  value: "r 6 closed", type: "Open/Closed Sensor")            
+
             }     
             else {
                 log.debug "Unhandled zone: " + msg
