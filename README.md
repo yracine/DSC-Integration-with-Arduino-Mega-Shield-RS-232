@@ -104,7 +104,8 @@ Ex. In SecurityAlaramPanel, the following sendEvent must match the zone number i
 
             sendEvent(name: "response",  value: "r 4 inactive", type: "Motion Detector")
  
-So, the zone 4 in SecurityAlarmPanel should be the same zone number in ArduinoAlarmController.
+So, the zone 4 in SecurityAlarmPanel should be the same zone number in ArduinoAlarmController when you execute it
+and do the zone configuration.
 
 Credits
 --------
