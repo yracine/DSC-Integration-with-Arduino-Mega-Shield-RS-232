@@ -11,6 +11,20 @@ Modified by Yves Racine
 https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=yracine%40yahoo%2ecom&lc=US&item_name=Maisons%20ecomatiq&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
 
 
+=====================
+PREREQUISITES
+=====================
+
+- Developer access to SmartThings (http://graph.api.smartthings.com/)
+- Determine your shard, please consult this thread:
+
+https://community.smartthings.com/t/faq-how-to-find-out-what-shard-cloud-slice-ide-url-your-account-location-is-on/53923
+
+If you are on a different shard, you need to change the links below for your right shard. 
+As an example, in the North America,
+
+replace https://graph.api.smartthings.com/ide/devices by https://graph-na02-useast1.api.smartthings.com
+
 
 Required hardware
 ------------------
